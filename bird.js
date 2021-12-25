@@ -1,5 +1,6 @@
 const birdElem = document.querySelector('[data-bird]')
 const BIRD_SPEED = .5
+const JUMP_DURATION = 125
 let timeSinceLastJump = Number.POSITIVE_INFINITY
 
 export function setupBird() { 
@@ -10,8 +11,17 @@ export function setupBird() {
 }
 
 export function updateBird(delta) {
-    setTop(getTop() + BIRD_SPEED * delta) 
-    console.log(getTop())
+    if (timeSinceLastJump < JUMP_DURATION) {
+        setTop(getTop() - BIRD_SPEED * delta) 
+    } else {
+        // + moves the bird down; - moves the bird up. 
+        setTop(getTop() + BIRD_SPEED * delta) 
+    }
+    timeSinceLastJump += delta 
+}
+
+export function getBirdRect() {
+    return birdElem.getBoundingClientRect()
 }
 
 function setTop(top) {
